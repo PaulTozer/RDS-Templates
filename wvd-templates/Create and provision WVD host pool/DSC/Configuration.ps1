@@ -160,3 +160,35 @@ configuration AdditionalSessionHosts
         }
     }
 }
+configuration cfgTest
+{
+    param
+    (
+        [Parameter(mandatory = $true)]
+        [string]$param
+    )
+
+    $ScriptPath = [system.io.path]::GetDirectoryName($PSCommandPath)
+
+    Node localhost
+    {
+        LocalConfigurationManager
+        {
+            RebootNodeIfNeeded = $true
+            ConfigurationMode = "ApplyOnly"
+        }
+
+        Script scriptTest
+        {
+            GetScript = {
+                return @{'Result' = ''}
+            }
+            SetScript = {
+                & "$using:ScriptPath\psh.ps1" -param $using:param
+            }
+            TestScript = {
+                return (Test-path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent")
+            }
+        }
+    }
+}
