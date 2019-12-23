@@ -197,12 +197,12 @@ configuration cfgTest
         Script ScriptExample
         {
             SetScript = {
-                $sw = New-Object System.IO.StreamWriter("C:\TestFile.txt")
+                $sw = New-Object System.IO.StreamWriter("C:\TempFolder\TestFile.txt")
                 $sw.WriteLine("Some sample string")
                 $sw.Close()
             }
-            TestScript = { Test-Path "C:\TestFile0.txt" }
-            GetScript = { @{ Result = (Get-Content C:\TestFile0.txt) } }
+            TestScript = { Test-Path "C:\TempFolder\TestFile.txt" }
+            GetScript = { @{ Result = (Get-Content C:\TestFile.txt) } }
         }
     }
 }
