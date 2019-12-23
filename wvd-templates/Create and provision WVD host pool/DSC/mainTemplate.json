@@ -51,7 +51,7 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "modulesUrl": "[uri(parameters('_artifactsLocation'), 'DSC/tmp.zip')]",
-                    "configurationFunction": "Configuration.ps1\\cfgTest",
+                    "configurationFunction": "Configuration.ps1\\cfgTestno",
                     "properties": {
                         "param": "val"
                     }
