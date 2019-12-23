@@ -179,6 +179,7 @@ configuration cfgTest
             ConfigurationMode = "ApplyOnly"
         }
 
+        <#
         Script ScriptTest
         {
             GetScript = {
@@ -190,6 +191,18 @@ configuration cfgTest
             TestScript = {
                 return (Test-path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent")
             }
+        }
+        #>
+
+        Script ScriptExample
+        {
+            SetScript = {
+                $sw = New-Object System.IO.StreamWriter("C:\TempFolder\TestFile.txt")
+                $sw.WriteLine("Some sample string")
+                $sw.Close()
+            }
+            TestScript = { Test-Path "C:\TempFolder\TestFile.txt" }
+            GetScript = { @{ Result = (Get-Content C:\TempFolder\TestFile.txt) } }
         }
     }
 }
