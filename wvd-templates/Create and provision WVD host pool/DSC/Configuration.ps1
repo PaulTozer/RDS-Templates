@@ -160,6 +160,7 @@ configuration AdditionalSessionHosts
         }
     }
 }
+
 configuration cfgTest
 {
     param
@@ -178,13 +179,13 @@ configuration cfgTest
             ConfigurationMode = "ApplyOnly"
         }
 
-        Script scriptTest
+        Script ScriptTest
         {
             GetScript = {
                 return @{'Result' = ''}
             }
             SetScript = {
-                & "$using:ScriptPath\psh.ps1" -param $using:param
+                & "$using:ScriptPath\pshno.ps1" -param $using:param
             }
             TestScript = {
                 return (Test-path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent")
