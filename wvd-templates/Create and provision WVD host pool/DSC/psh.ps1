@@ -31,7 +31,7 @@ Write-Error '[new] Write-Error' -ErrorAction 'Continue'
 # Getting fqdn of rdsh vm
 $SessionHostName = (Get-WmiObject win32_computersystem).DNSHostName + "." + (Get-WmiObject win32_computersystem).Domain
 # Write-Log -Message "Getting fully qualified domain name of RDSH VM: $SessionHostName"
-Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName"
+Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName" -ErrorAction 'Continue'
 
 # Setting ErrorActionPreference to stop script execution when error occurs
 $ErrorActionPreference = "Stop"
@@ -47,22 +47,22 @@ Write-Error 'Write-Error' -ErrorAction 'Continue'
 # Getting fqdn of rdsh vm
 $SessionHostName = (Get-WmiObject win32_computersystem).DNSHostName + "." + (Get-WmiObject win32_computersystem).Domain
 # Write-Log -Message "Getting fully qualified domain name of RDSH VM: $SessionHostName"
-Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName"
+Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName" -ErrorAction 'Continue'
 
 # Getting fqdn of rdsh vm
 $SessionHostName = (Get-WmiObject win32_computersystem).DNSHostName + "." + (Get-WmiObject win32_computersystem).Domain
 # Write-Log -Message "Getting fully qualified domain name of RDSH VM: $SessionHostName"
-Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName"
+Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName" -ErrorAction 'Continue'
 
 # Getting fqdn of rdsh vm
 $SessionHostName = (Get-WmiObject win32_computersystem).DNSHostName + "." + (Get-WmiObject win32_computersystem).Domain
 # Write-Log -Message "Getting fully qualified domain name of RDSH VM: $SessionHostName"
-Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName"
+Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName" -ErrorAction 'Continue'
 
 # Getting fqdn of rdsh vm
 $SessionHostName = (Get-WmiObject win32_computersystem).DNSHostName + "." + (Get-WmiObject win32_computersystem).Domain
 # Write-Log -Message "Getting fully qualified domain name of RDSH VM: $SessionHostName"
-Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName"
+Write-Error "Getting fully qualified domain name of RDSH VM: $SessionHostName" -ErrorAction 'Continue'
 
 
-Write-Error 'end'
+Write-Error 'end' -ErrorAction 'Continue'
