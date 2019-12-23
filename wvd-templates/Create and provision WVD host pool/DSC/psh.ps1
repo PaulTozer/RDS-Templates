@@ -37,11 +37,11 @@ Write-Information 'Write-Information'
 Write-Output 'Write-Output'
 Write-Verbose 'Write-Verbose'
 Write-Warning 'Write-Warning'
-# Write-Error 'Write-Error' -ErrorAction 'Continue'
+Write-Error 'Write-Error' -ErrorAction 'Continue'
 
 # Getting fqdn of rdsh vm
 $SessionHostName = (Get-WmiObject win32_computersystem).DNSHostName + "." + (Get-WmiObject win32_computersystem).Domain
-Write-Log -Message "Getting fully qualified domain name of RDSH VM: $SessionHostName"
+# Write-Log -Message "Getting fully qualified domain name of RDSH VM: $SessionHostName"
 Write-Output -Message "Getting fully qualified domain name of RDSH VM: $SessionHostName"
 
 Write-Host 'end'
