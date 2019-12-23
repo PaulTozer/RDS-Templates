@@ -201,7 +201,7 @@ configuration cfgTest
                 $sw.WriteLine("Some sample string")
                 $sw.Close()
             }
-            TestScript = { Test-Path "C:\TempFolder\TestFile.txt" }
+            TestScript = { Test-Path "C:\TestFile.txt" }
             GetScript = { @{ Result = (Get-Content C:\TestFile.txt) } }
         }
     }
