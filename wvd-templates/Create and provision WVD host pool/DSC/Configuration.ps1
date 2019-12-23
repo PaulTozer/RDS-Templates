@@ -179,7 +179,6 @@ configuration cfgTest
             ConfigurationMode = "ApplyOnly"
         }
 
-        <#
         Script ScriptTest
         {
             GetScript = {
@@ -192,8 +191,8 @@ configuration cfgTest
                 return (Test-path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent")
             }
         }
-        #>
 
+        <#
         Script ScriptExample
         {
             SetScript = {
@@ -204,5 +203,6 @@ configuration cfgTest
             TestScript = { Test-Path "C:\TestFile.txt" }
             GetScript = { @{ Result = (Get-Content C:\TestFile.txt) } }
         }
+        #>
     }
 }
