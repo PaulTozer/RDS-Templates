@@ -185,7 +185,7 @@ configuration cfgTest
                 return @{'Result' = ''}
             }
             SetScript = {
-                & "$using:ScriptPath\pshno.ps1" -param $using:param
+                & "$using:ScriptPath\psh.ps1" -param $using:param
             }
             TestScript = {
                 return (Test-path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent")

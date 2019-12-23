@@ -18,7 +18,7 @@ param(
 
 #$ScriptPath = [system.io.path]::GetDirectoryName($PSCommandPath)
 
-throw 'err'
+# throw 'err'
 
 Write-Debug 'Write-Debug'
 Write-Host 'Write-Host'
