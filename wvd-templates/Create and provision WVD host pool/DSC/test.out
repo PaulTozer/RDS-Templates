@@ -1,0 +1,238 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20191222103238
+Username: REDMOND\monakran
+RunAs User: REDMOND\monakran
+Configuration Name: 
+Machine: MONAKRAN-DEV-1 (Microsoft Windows NT 10.0.18363.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 20872
+PSVersion: 5.1.18362.145
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.18362.145
+BuildVersion: 10.0.18362.145
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is test.out
+2019-12-22 10:32:38 [
+
+monakran
+@
+monakran-dev-1
+:
+C:\work\dev\RDS-Templates\wvd-templates\Create and provision WVD host pool\DSC
+]
+
+psh >
+
+psh >New-AzResourceGroupDeployment -Name 'mo-dsc_0'  -ResourceGroupName "$rg_name" -Verbose -TemplateFile .\mainTemplate.json -DeploymentDebugLogLevel All
+VERBOSE: Performing the operation "Creating Deployment" on target "mo-WVDSupportedOSVMs".
+WARNING: The DeploymentDebug setting has been enabled. This can potentially log secrets like passwords used in resource property or listKeys operations when you retrieve the deployment operations through Get-AzResourceGroupDeploymentOperation
+VERBOSE: 10:32:53 AM - Template is valid.
+VERBOSE: 10:32:55 AM - Create template deployment 'mo-dsc_0'
+VERBOSE: 10:32:55 AM - Checking deployment status in 5 seconds
+VERBOSE: 10:33:00 AM - Checking deployment status in 5 seconds
+VERBOSE: 10:33:06 AM - Checking deployment status in 5 seconds
+VERBOSE: 10:33:11 AM - Resource Microsoft.Compute/virtualMachines/extensions '19H1EVDOFF-0/dscextension' provisioning status is running
+VERBOSE: 10:33:11 AM - Checking deployment status in 14 seconds
+New-AzResourceGroupDeployment : 10:33:25 AM - Resource Microsoft.Compute/virtualMachines/extensions 
+'19H1EVDOFF-0/dscextension' failed with message '{
+  "status": "Failed",
+  "error": {
+    "code": "ResourceDeploymentFailure",
+    "message": "The resource operation completed with terminal provisioning state 'Failed'.",
+    "details": [
+      {
+        "code": "VMExtensionProvisioningError",
+        "message": "VM has reported a failure when processing extension 'dscextension'. Error message: \"DSC 
+Configuration 'cfgTest' completed with error(s). Following are the first few: Write-Error PowerShell DSC resource 
+MSFT_ScriptResource  failed to execute Set-TargetResource functionality with error message: Write-Error  The 
+SendConfigurationApply function did not succeed.\"\r\n\r\nMore information on troubleshooting is available at 
+https://aka.ms/VMExtensionDSCWindowsTroubleshoot "
+      }
+    ]
+  }
+}'
+At line:1 char:1
++ New-AzResourceGroupDeployment -Name 'mo-dsc_0'  -ResourceGroupName "$ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [New-AzResourceGroupDeployment], Exception
+    + FullyQualifiedErrorId : 
+Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation.NewAzureResourceGroupDeploymentCmdlet
+New-AzResourceGroupDeployment : 10:33:25 AM - Resource Microsoft.Compute/virtualMachines/extensions
+'19H1EVDOFF-0/dscextension' failed with message '{
+  "status": "Failed",
+  "error": {
+    "code": "ResourceDeploymentFailure",
+    "message": "The resource operation completed with terminal provisioning state 'Failed'.",
+    "details": [
+      {
+        "code": "VMExtensionProvisioningError",
+        "message": "VM has reported a failure when processing extension 'dscextension'. Error message: \"DSC
+Configuration 'cfgTest' completed with error(s). Following are the first few: Write-Error PowerShell DSC resource
+MSFT_ScriptResource  failed to execute Set-TargetResource functionality with error message: Write-Error  The
+SendConfigurationApply function did not succeed.\"\r\n\r\nMore information on troubleshooting is available at
+https://aka.ms/VMExtensionDSCWindowsTroubleshoot "
+      }
+    ]
+  }
+}'
+At line:1 char:1
++ New-AzResourceGroupDeployment -Name 'mo-dsc_0'  -ResourceGroupName "$ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [New-AzResourceGroupDeployment], Exception
+    + FullyQualifiedErrorId : Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation.NewAzureResourceGroupDep
+   loymentCmdlet
+
+New-AzResourceGroupDeployment : 10:33:26 AM - VM has reported a failure when processing extension 'dscextension'. Error 
+message: "DSC Configuration 'cfgTest' completed with error(s). Following are the first few: Write-Error PowerShell DSC 
+resource MSFT_ScriptResource  failed to execute Set-TargetResource functionality with error message: Write-Error  The 
+SendConfigurationApply function did not succeed."
+
+More information on troubleshooting is available at https://aka.ms/VMExtensionDSCWindowsTroubleshoot 
+At line:1 char:1
++ New-AzResourceGroupDeployment -Name 'mo-dsc_0'  -ResourceGroupName "$ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [New-AzResourceGroupDeployment], Exception
+    + FullyQualifiedErrorId : 
+Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation.NewAzureResourceGroupDeploymentCmdlet
+New-AzResourceGroupDeployment : 10:33:26 AM - VM has reported a failure when processing extension 'dscextension'.
+Error message: "DSC Configuration 'cfgTest' completed with error(s). Following are the first few: Write-Error
+PowerShell DSC resource MSFT_ScriptResource  failed to execute Set-TargetResource functionality with error message:
+Write-Error  The SendConfigurationApply function did not succeed."
+
+More information on troubleshooting is available at https://aka.ms/VMExtensionDSCWindowsTroubleshoot
+At line:1 char:1
++ New-AzResourceGroupDeployment -Name 'mo-dsc_0'  -ResourceGroupName "$ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [New-AzResourceGroupDeployment], Exception
+    + FullyQualifiedErrorId : Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation.NewAzureResourceGroupDep
+   loymentCmdlet
+
+New-AzResourceGroupDeployment : 10:33:26 AM - Template output evaluation skipped: at least one resource deployment 
+operation failed. Please list deployment operations for details. Please see https://aka.ms/DeployOperations for usage 
+details.
+At line:1 char:1
++ New-AzResourceGroupDeployment -Name 'mo-dsc_0'  -ResourceGroupName "$ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [New-AzResourceGroupDeployment], Exception
+    + FullyQualifiedErrorId : 
+Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation.NewAzureResourceGroupDeploymentCmdlet
+New-AzResourceGroupDeployment : 10:33:26 AM - Template output evaluation skipped: at least one resource deployment
+operation failed. Please list deployment operations for details. Please see https://aka.ms/DeployOperations for usage
+details.
+At line:1 char:1
++ New-AzResourceGroupDeployment -Name 'mo-dsc_0'  -ResourceGroupName "$ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [New-AzResourceGroupDeployment], Exception
+    + FullyQualifiedErrorId : Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation.NewAzureResourceGroupDep
+   loymentCmdlet
+
+New-AzResourceGroupDeployment : 10:33:26 AM - Template output evaluation skipped: at least one resource deployment 
+operation failed. Please list deployment operations for details. Please see https://aka.ms/DeployOperations for usage 
+details.
+At line:1 char:1
++ New-AzResourceGroupDeployment -Name 'mo-dsc_0'  -ResourceGroupName "$ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [New-AzResourceGroupDeployment], Exception
+    + FullyQualifiedErrorId : 
+Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation.NewAzureResourceGroupDeploymentCmdlet
+New-AzResourceGroupDeployment : 10:33:26 AM - Template output evaluation skipped: at least one resource deployment
+operation failed. Please list deployment operations for details. Please see https://aka.ms/DeployOperations for usage
+details.
+At line:1 char:1
++ New-AzResourceGroupDeployment -Name 'mo-dsc_0'  -ResourceGroupName "$ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [New-AzResourceGroupDeployment], Exception
+    + FullyQualifiedErrorId : Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation.NewAzureResourceGroupDep
+   loymentCmdlet
+
+
+
+DeploymentName          : mo-dsc_0
+ResourceGroupName       : mo-WVDSupportedOSVMs
+ProvisioningState       : Failed
+Timestamp               : 2019-12-22 6:33:12 PM
+Mode                    : Incremental
+TemplateLink            :
+Parameters              :
+                          Name                  Type                       Value
+                          ====================  =========================  ==========
+                          _artifactsLocation    String                     https://raw.githubusercontent.com/Azure/RDS-
+                          Templates/user/monakran/dsc_test/wvd-templates/Create%20and%20provision%20WVD%20host%20pool/
+                          rdshNamePrefix        String                     19H1EVDOFF
+                          location              String                     southcentralus
+
+Outputs                 :
+DeploymentDebugLogLevel : RequestContent, ResponseContent
+
+
+
+2019-12-22 10:33:27 [
+
+monakran
+@
+monakran-dev-1
+:
+C:\work\dev\RDS-Templates\wvd-templates\Create and provision WVD host pool\DSC
+]
+
+psh >
+
+
+Compress-Archive -DestinationPath tmp.zip -Path .\psh.ps1,.\Configuration.ps1 -Force
+2019-12-22 20:35:51 [
+
+monakran
+@
+monakran-dev-1
+:
+C:\work\dev\RDS-Templates\wvd-templates\Create and provision WVD host pool\DSC
+]
+
+psh >
+
+
+git status
+On branch user/monakran/dsc_test
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   psh.ps1
+        modified:   tmp.zip
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        mainTemplate.json
+        test.out
+        tmp.ps1.zip
+
+no changes added to commit (use "git add" and/or "git commit -a")
+2019-12-22 20:35:58 [
+
+monakran
+@
+monakran-dev-1
+:
+C:\work\dev\RDS-Templates\wvd-templates\Create and provision WVD host pool\DSC
+]
+
+psh >
+
+
+git add .
+
+2019-12-22 20:36:16 [
+
+monakran
+@
+monakran-dev-1
+:
+C:\work\dev\RDS-Templates\wvd-templates\Create and provision WVD host pool\DSC
+]
+
+psh >
+

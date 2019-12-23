@@ -1,0 +1,68 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "_artifactsLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The base URI where artifacts required by this template are located."
+            },
+            "defaultValue": "https://raw.githubusercontent.com/Azure/RDS-Templates/user/monakran/dsc_test/wvd-templates/Create%20and%20provision%20WVD%20host%20pool/"
+        },
+        "rdshNamePrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "This prefix will be used in combination with the VM number to create the VM name. If using 'rdsh' as the prefix, VMs would be named 'rdsh-0', 'rdsh-1', etc. You should use a unique prefix to reduce name collisions in Active Directory."
+            },
+            "defaultValue": "19H1EVDOFF"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "(Required for Azure Marketplace.) Leave as is, unless you would like to not use a location that is different from the location of the resouce group."
+            }
+        }
+    },
+    "variables": {
+        "rdshPrefix": "[concat(parameters('rdshNamePrefix'), '-')]",
+        "rdshVmNamesOutput": {
+            "copy": [
+                {
+                    "name": "rdshVmNamesCopy",
+                    "count": 1,
+                    "input": {
+                        "name": "[concat(variables('rdshPrefix'), copyIndex('rdshVmNamesCopy'))]"
+                    }
+                }
+            ]
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2018-10-01",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(variables('rdshPrefix'), '0/', 'dscextension')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.73",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "modulesUrl": "[uri(parameters('_artifactsLocation'), 'DSC/tmp.zip')]",
+                    "configurationFunction": "Configuration.ps1\\cfgTest",
+                    "properties": {
+                        "param": "val",
+                    }
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "rdshVmNamesObject": {
+            "value": "[variables('rdshVmNamesOutput')]",
+            "type": "object"
+        }
+    }
+}
