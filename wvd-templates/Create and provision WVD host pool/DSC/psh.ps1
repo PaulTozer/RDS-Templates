@@ -26,7 +26,7 @@ Write-Information 'Write-Information'
 Write-Output 'Write-Output'
 Write-Verbose 'Write-Verbose'
 Write-Warning 'Write-Warning'
-# Write-Error '[new] Write-Error' -ErrorAction 'Continue'
+Write-Error '[new] Write-Error' -ErrorAction 'Continue'
 
 # Setting ErrorActionPreference to stop script execution when error occurs
 $ErrorActionPreference = "Stop"
@@ -37,7 +37,7 @@ Write-Information 'Write-Information'
 Write-Output 'Write-Output'
 Write-Verbose 'Write-Verbose'
 Write-Warning 'Write-Warning'
-# Write-Error 'Write-Error' -ErrorAction 'Continue'
+Write-Error 'Write-Error' -ErrorAction 'Continue'
 
 # Getting fqdn of rdsh vm
 $SessionHostName = (Get-WmiObject win32_computersystem).DNSHostName + "." + (Get-WmiObject win32_computersystem).Domain
