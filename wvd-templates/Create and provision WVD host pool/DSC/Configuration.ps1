@@ -197,7 +197,7 @@ configuration cfgTest
         Script ScriptExample
         {
             SetScript = {
-                $sw = New-Object System.IO.StreamWriter("C:\TempFolder\TestFile.txt")
+                $sw = New-Object System.IO.StreamWriter("C:\TempFolder\TestFile1.txt")
                 $sw.WriteLine("Some sample string")
                 $sw.Close()
             }
