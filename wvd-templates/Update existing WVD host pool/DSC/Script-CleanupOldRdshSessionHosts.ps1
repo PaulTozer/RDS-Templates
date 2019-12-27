@@ -1,10 +1,10 @@
 ﻿<#
 
 .SYNOPSIS
-Removing hosts from Existing Hostpool and add first instance to hostpool.
+Removing old hosts from Existing Hostpool.
 
 .DESCRIPTION
-This script will Remove/Stop old sessionhost servers from existing Hostpool and add first instance to existing hostpool.
+This script will Remove/Stop old sessionhost servers from existing Hostpool.
 The supported Operating Systems Windows Server 2016/windows 10 multisession.
 
 .ROLE
