@@ -55,8 +55,14 @@ param(
 	[Parameter(mandatory = $true)]
 	[string]$deleteordeallocateVMs,
 
-	[Parameter(mandatory = $false)]
-	[string]$DomainName
+	[Parameter(mandatory = $true)]
+	[string]$DomainName,
+
+	[Parameter(mandatory = $true)]
+	[int]$rdshNumberOfInstances,
+
+	[Parameter(mandatory = $true)]
+	[string]$rdshPrefix
 
 )
 
@@ -149,6 +155,14 @@ if ($null -ne $OSVersionInfo) {
 	}
 }
 
+#//todo collect new session hosts
+$NewSessionHostNames = @{}
+for ($i = 0; $i -lt $rdshNumberOfInstances; ++$i) {
+	$NewSessionHostNames.Add("${rdshPrefix}${i}.${DomainName}", $true)
+}
+
+Write-Log -Message "List of new Session Host servers in $HostPoolName :`n$($NewSessionHostNames.Keys | Out-String)"
+
 $ListOfSessionHosts = Get-RdsSessionHost -TenantName "$Tenantname" -HostPoolName "$HostPoolName"
 $ShslogObj = $ListOfSessionHosts.SessionHostName | Out-String
 Write-Log -Message "List of Session Host servers in $HostPoolName :`n$ShslogObj"
@@ -158,8 +172,10 @@ $SessionHostNames = 0
 $SessionHostNames = @()
 foreach ($SessionHost in $ListOfSessionHosts) {
 	#//todo filter out new session hosts
-	$SessionHostName = $SessionHost.SessionHostName
-	$SessionHostNames += $SessionHostName
+	if (!$NewSessionHostNames.ContainsKey($SessionHost.SessionHostName))
+	{
+		$SessionHostNames += $SessionHost.SessionHostName
+	}
 }
 
 $UniqueSessionHostNames = $SessionHostNames | Select-Object -Unique
@@ -168,8 +184,12 @@ $UniqueSessionHostNames = $SessionHostNames | Select-Object -Unique
 $ListOfUserSessions = Get-RdsUserSession -TenantName "$TenantName" -HostPoolName "$HostPoolName"
 if ($ListOfUserSessions) {
 	foreach ($UserSession in $ListOfUserSessions) {
-		$SessionId = $UserSession.SessionId
 		$SessionHostName = $UserSession.SessionHostName #//todo check if user session host is old session host
+		if ($NewSessionHostNames.ContainsKey($SessionHostName))
+		{
+			continue
+		}
+		$SessionId = $UserSession.SessionId
 		$UserPrincipalName = $UserSession.UserPrincipalName | Out-String
 
 		# Before removing session hosts from hostpool, sending User session message to User
