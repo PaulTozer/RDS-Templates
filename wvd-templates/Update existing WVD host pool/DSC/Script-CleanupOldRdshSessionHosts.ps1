@@ -77,12 +77,13 @@ $ErrorActionPreference = "Stop"
 # Testing if it is a ServicePrincipal and validade that AadTenant ID in this case is not null or empty
 ValidateServicePrincipal -IsServicePrincipal $isServicePrincipal -AADTenantId $AadTenantId
 
-<#
-#//todo might have to extract to get rd ps module
-Write-Log -Message "Creating a folder inside rdsh vm for extracting deployagent zip file"
+# extract RD Powershell module from deploy agent .zip
+Write-Log -Message "Creating a folder inside rdsh vm for extracting RD Powershell module"
 $DeployAgentLocation = "C:\DeployAgent"
 ExtractDeploymentAgentZipFile -ScriptPath $ScriptPath -DeployAgentLocation $DeployAgentLocation
-#>
+
+Write-Log -Message "Changing current folder to Deployagent folder: $DeployAgentLocation"
+Set-Location "$DeployAgentLocation"
 
 # Importing Windows Virtual Desktop PowerShell module
 Import-Module .\PowershellModules\Microsoft.RDInfra.RDPowershell.dll
@@ -90,16 +91,23 @@ Write-Log -Message "Imported Windows Virtual Desktop PowerShell modules successf
 
 
 # Authenticating to Windows Virtual Desktop
-#//todo try catch
-if ($isServicePrincipal -eq "True")
+try
 {
-	Write-Log -Message "Authenticating using service principal $TenantAdminCredentials.username and Tenant id: $AadTenantId "
-	$authentication = Add-RdsAccount -DeploymentUrl $RDBrokerURL -Credential $TenantAdminCredentials -ServicePrincipal -TenantId $AadTenantId
+	if ($isServicePrincipal -eq "True")
+	{
+		Write-Log -Message "Authenticating using service principal $TenantAdminCredentials.username and Tenant id: $AadTenantId "
+		$authentication = Add-RdsAccount -DeploymentUrl $RDBrokerURL -Credential $TenantAdminCredentials -ServicePrincipal -TenantId $AadTenantId
+	}
+	else
+	{
+		Write-Log -Message "Authenticating using user $($TenantAdminCredentials.username) "
+		$authentication = Add-RdsAccount -DeploymentUrl $RDBrokerURL -Credential $TenantAdminCredentials
+	}
 }
-else
+catch
 {
-	Write-Log -Message "Authenticating using user $($TenantAdminCredentials.username) "
-	$authentication = Add-RdsAccount -DeploymentUrl $RDBrokerURL -Credential $TenantAdminCredentials
+	Write-Log -Error "Windows Virtual Desktop Authentication Failed, Error:`n$_"
+	throw "Windows Virtual Desktop Authentication Failed, Error:`n$_"
 }
 
 $obj = $authentication | Out-String
@@ -155,7 +163,7 @@ if ($null -ne $OSVersionInfo) {
 	}
 }
 
-#//todo collect new session hosts
+# collect new session hosts
 $NewSessionHostNames = @{}
 for ($i = 0; $i -lt $rdshNumberOfInstances; ++$i) {
 	$NewSessionHostNames.Add("${rdshPrefix}${i}.${DomainName}", $true)
@@ -171,7 +179,6 @@ Write-Log -Message "List of Session Host servers in $HostPoolName :`n$ShslogObj"
 $SessionHostNames = 0
 $SessionHostNames = @()
 foreach ($SessionHost in $ListOfSessionHosts) {
-	#//todo filter out new session hosts
 	if (!$NewSessionHostNames.ContainsKey($SessionHost.SessionHostName))
 	{
 		$SessionHostNames += $SessionHost.SessionHostName
@@ -184,7 +191,7 @@ $UniqueSessionHostNames = $SessionHostNames | Select-Object -Unique
 $ListOfUserSessions = Get-RdsUserSession -TenantName "$TenantName" -HostPoolName "$HostPoolName"
 if ($ListOfUserSessions) {
 	foreach ($UserSession in $ListOfUserSessions) {
-		$SessionHostName = $UserSession.SessionHostName #//todo check if user session host is old session host
+		$SessionHostName = $UserSession.SessionHostName
 		if ($NewSessionHostNames.ContainsKey($SessionHostName))
 		{
 			continue
@@ -193,8 +200,7 @@ if ($ListOfUserSessions) {
 		$UserPrincipalName = $UserSession.UserPrincipalName | Out-String
 
 		# Before removing session hosts from hostpool, sending User session message to User
-		#//todo uncomment
-		# Send-RdsUserSessionMessage -TenantName "$TenantName" -HostPoolName "$HostPoolName" -SessionHostName "$SessionHostName" -SessionId $SessionId -MessageTitle $messageTitle -MessageBody $userNotificationMessege -NoUserPrompt
+		Send-RdsUserSessionMessage -TenantName "$TenantName" -HostPoolName "$HostPoolName" -SessionHostName "$SessionHostName" -SessionId $SessionId -MessageTitle $messageTitle -MessageBody $userNotificationMessege -NoUserPrompt
 		Write-Log -Message "Sent a user session message to $UserPrincipalName and sessionid was $SessionId"
 	}
 }
@@ -213,9 +219,6 @@ $ConvertSeconds = $userLogoffDelayInMinutes * 60
 Start-Sleep -Seconds $ConvertSeconds
 
 foreach ($SessionHostName in $UniqueSessionHostNames) {
-
-	#//todo remove
-	continue
 
 	# Keeping session host in drain mode
 	$shsDrain = Set-RdsSessionHost -TenantName "$Tenantname" -HostPoolName "$HostPoolName" -Name "$SessionHostName" -AllowNewSession $false
@@ -343,8 +346,9 @@ foreach ($SessionHostName in $UniqueSessionHostNames) {
 	}
 }
 
-$HostpoolHaveSessionHost = Get-RdsSessionHost -TenantName "$TenantName" -HostPoolName "$HostPoolName"
-if ($HostpoolHaveSessionHost) { #//todo check if pool contains the old ones
+$AllSessionHosts = Get-RdsSessionHost -TenantName "$TenantName" -HostPoolName "$HostPoolName"
+$OldSessionHosts = $AllSessionHosts.SessionHostName | Where-Object { !$NewSessionHostNames.ContainsKey($_) }
+if ($OldSessionHosts) {
 	Write-Log -Error "Old Session Hosts were not removed from hostpool $HostPoolName"
 	throw "Old Session Hosts were not removed from hostpool $HostPoolName"
 }

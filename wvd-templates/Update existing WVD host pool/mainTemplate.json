@@ -509,7 +509,7 @@
                         "DomainName": "[parameters('domainToJoin')]",
                         "rdshNumberOfInstances": "[parameters('rdshNumberOfInstances')]",
                         "rdshPrefix": "[variables('rdshPrefix')]",
-                        "Last": true //todo confirm ?
+                        "Last": true
                     }
                 },
                 "ProtectedSettings": {
